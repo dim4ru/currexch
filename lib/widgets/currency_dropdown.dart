@@ -10,7 +10,8 @@ class CurrencyDropdown extends StatelessWidget {
     return Row(
       children: [
         Expanded(
-          child: TextField(
+          child: TextFormField(
+            readOnly: true,
             decoration: InputDecoration(
               labelText: title,
             ),
