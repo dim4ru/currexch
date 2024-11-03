@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../bloc/currency/currency_bloc.dart';
 import '../bloc/exchange/exchange_bloc.dart';
 import '../widgets/currency_selector.dart';
 
@@ -25,8 +26,11 @@ class ExchangeScreen extends StatelessWidget {
               key: _formKey,
               child: Column(
                 children: [
-                   CurrencySelector(
-                    title: "You send",
+                  BlocProvider( // Provide a separate CurrencyBloc for the first selector
+                    create: (context) => CurrencyBloc(),
+                    child: const CurrencySelector(
+                      title: "You send",
+                    ),
                   ),
                   const SizedBox(height: 16),
                   IconButton(
@@ -34,8 +38,11 @@ class ExchangeScreen extends StatelessWidget {
                     icon: const Icon(Icons.swap_vert),
                   ),
                   const SizedBox(height: 16),
-                   CurrencySelector(
-                    title: "They get",
+                  BlocProvider( // Provide a separate CurrencyBloc for the first selector
+                    create: (context) => CurrencyBloc(),
+                    child: const CurrencySelector(
+                      title: "You send",
+                    ),
                   ),
                   const SizedBox(
                     height: 16,
@@ -45,7 +52,7 @@ class ExchangeScreen extends StatelessWidget {
                         exchangeBloc.add(UserRequestExchange());
                       },
                       child: Text("Go!")),
-                  SizedBox(
+                  const SizedBox(
                     height: 16,
                   ),
                   if (state is ExchangeLoading)

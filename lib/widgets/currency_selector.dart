@@ -34,7 +34,7 @@ class CurrencySelector extends StatelessWidget {
                   context: context,
                   builder: (BuildContext context) {
                     return AlertDialog(
-                      title: Text('Select Currency'),
+                      title: const Text('Select currency'),
                       content: SingleChildScrollView(
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
@@ -44,7 +44,7 @@ class CurrencySelector extends StatelessWidget {
                               value: currency,
                               groupValue: _selectedCurrency,
                               onChanged: (value) {
-                                currencyBloc.add(ChangeCurrencyEvent(value ?? ''));
+                                currencyBloc.add(ChangeCurrencyEvent(value!));
                                 Navigator.pop(context);
                               },
                             );
