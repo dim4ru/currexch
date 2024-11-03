@@ -15,8 +15,6 @@ class ChangeCurrencyToEvent extends CurrencyEvent {
 }
 
 class SwapCurrencyEvent extends CurrencyEvent {
-  final String currencyFrom;
-  final String currencyTo;
 
-  SwapCurrencyEvent({required this.currencyFrom, required this.currencyTo});
+  SwapCurrencyEvent();
 }

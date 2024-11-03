@@ -6,7 +6,7 @@ part 'currency_state.dart';
 
 class CurrencyBloc extends Bloc<CurrencyEvent, CurrencyState> {
   // TODO указывать initial в state
-  CurrencyBloc() : super(const CurrencyInitial(currencyFrom: 'R', currencyTo: 'R')) {
+  CurrencyBloc() : super(const CurrencyInitial(currencyFrom: 'Choose', currencyTo: 'Choose')) {
 
     on<ChangeCurrencyFromEvent>((event, emit) {
       emit(ChangedCurrencyState(currencyFrom: event.currencyFrom, currencyTo: state.currencyTo));
@@ -19,7 +19,11 @@ class CurrencyBloc extends Bloc<CurrencyEvent, CurrencyState> {
     });
 
     on<SwapCurrencyEvent>((event, emit) {
-      print("SWAP ${event.currencyFrom}->${event.currencyTo}");
+      emit(SwappedCurrencyState(
+          currencyFrom: state.currencyTo,
+          currencyTo: state.currencyFrom,
+      ));
+      print("SWAP ${state.currencyFrom}->${state.currencyTo}");
     });
   }
 }

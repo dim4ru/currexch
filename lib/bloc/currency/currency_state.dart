@@ -15,3 +15,7 @@ final class CurrencyInitial extends CurrencyState {
 class ChangedCurrencyState extends CurrencyState {
   const ChangedCurrencyState({required super.currencyFrom, required super.currencyTo});
 }
+
+class SwappedCurrencyState extends CurrencyState {
+  const SwappedCurrencyState({required super.currencyFrom, required super.currencyTo});
+}

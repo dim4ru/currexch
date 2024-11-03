@@ -5,8 +5,9 @@ import '../bloc/currency/currency_bloc.dart';
 
 class CurrencyFromSelector extends StatelessWidget {
   final String title;
+  final CurrencyBloc currencyBloc;
 
-  const CurrencyFromSelector({super.key, required this.title});
+  const CurrencyFromSelector({super.key, required this.title, required this.currencyBloc});
 
   @override
   Widget build(BuildContext context) {

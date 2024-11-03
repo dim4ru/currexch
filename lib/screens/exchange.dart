@@ -14,62 +14,59 @@ class ExchangeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final exchangeBloc = context.read<ExchangeBloc>();
-    final currencyBloc = context.read<CurrencyBloc>();
 
     return Scaffold(
       appBar: AppBar(
         title: const Text("Currency converter"),
       ),
-      body: BlocBuilder<ExchangeBloc, ExchangeState>(
-        builder: (context, state) {
-          return Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Form(
-              key: _formKey,
-              child: Column(
-                children: [
-                  BlocProvider(
-                    create: (context) => CurrencyBloc(),
-                    child: const CurrencyFromSelector(
+      body: BlocProvider(
+        create: (context) => CurrencyBloc(),
+        child: BlocBuilder<ExchangeBloc, ExchangeState>(
+          builder: (context, state) {
+            final currencyBloc = context.read<CurrencyBloc>();
+
+            return Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    CurrencyFromSelector(
                       title: "You send",
+                      currencyBloc: currencyBloc,
                     ),
-                  ),
-                  const SizedBox(height: 16),
-                  IconButton(
-                    onPressed: () {
-                      currencyBloc.add(SwapCurrencyEvent(
-                          currencyFrom: currencyBloc.state.currencyFrom,
-                          currencyTo: currencyBloc.state.currencyTo));
-                    },
-                    icon: const Icon(Icons.swap_vert),
-                  ),
-                  const SizedBox(height: 16),
-                  BlocProvider(
-                    create: (context) => CurrencyBloc(),
-                    child: const CurrencyToSelector(
-                      title: "They get",
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 16,
-                  ),
-                  ElevatedButton(
+                    const SizedBox(height: 16),
+                    IconButton(
                       onPressed: () {
-                        exchangeBloc.add(UserRequestExchange());
+                        currencyBloc.add(SwapCurrencyEvent());
                       },
-                      child: Text("Go!")),
-                  const SizedBox(
-                    height: 16,
-                  ),
-                  if (state is ExchangeLoading)
-                    const CircularProgressIndicator()
-                  else if (state is ExchangeApiSuccessful)
-                    const Text("ExchangeApiSuccessful")
-                ],
+                      icon: const Icon(Icons.swap_vert),
+                    ),
+                    const SizedBox(height: 16),
+                    CurrencyToSelector(
+                        title: "They get",
+                        currencyBloc: currencyBloc),
+                    const SizedBox(
+                      height: 16,
+                    ),
+                    ElevatedButton(
+                        onPressed: () {
+                          exchangeBloc.add(UserRequestExchange());
+                        },
+                        child: Text("Go!")),
+                    const SizedBox(
+                      height: 16,
+                    ),
+                    if (state is ExchangeLoading)
+                      const CircularProgressIndicator()
+                    else if (state is ExchangeApiSuccessful)
+                      const Text("ExchangeApiSuccessful")
+                  ],
+                ),
               ),
-            ),
-          );
-        },
+            );
+          },
+        ),
       ),
     );
   }
