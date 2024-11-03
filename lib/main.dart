@@ -1,8 +1,9 @@
-import 'package:currexch/bloc/exchange_bloc.dart';
+import 'package:currexch/bloc/exchange/exchange_bloc.dart';
 import 'package:currexch/screens/exchange.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'bloc/currency/currency_bloc.dart';
 import 'helpers/colors.dart';
 
 void main() {
@@ -27,8 +28,11 @@ class MyApp extends StatelessWidget {
             )
         ),
       ),
-      home: BlocProvider(
-        create: (context) => ExchangeBloc(),
+      home: MultiBlocProvider(
+        providers: [
+          BlocProvider(create: (context) => ExchangeBloc()),
+          BlocProvider<CurrencyBloc>(create: (context) => CurrencyBloc()),
+        ],
         child: ExchangeScreen(),
       ),
     );

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../bloc/exchange_bloc.dart';
-import '../widgets/currency_dropdown.dart';
+import '../bloc/exchange/exchange_bloc.dart';
+import '../widgets/currency_selector.dart';
 
 class ExchangeScreen extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
@@ -25,7 +25,7 @@ class ExchangeScreen extends StatelessWidget {
               key: _formKey,
               child: Column(
                 children: [
-                  const CurrencyDropdown(
+                   CurrencySelector(
                     title: "You send",
                   ),
                   const SizedBox(height: 16),
@@ -34,7 +34,7 @@ class ExchangeScreen extends StatelessWidget {
                     icon: const Icon(Icons.swap_vert),
                   ),
                   const SizedBox(height: 16),
-                  const CurrencyDropdown(
+                   CurrencySelector(
                     title: "They get",
                   ),
                   const SizedBox(
