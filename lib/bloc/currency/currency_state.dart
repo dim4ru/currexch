@@ -2,15 +2,16 @@ part of 'currency_bloc.dart';
 
 @immutable
 abstract class CurrencyState {
-  final String currency;
+  final String currencyFrom;
+  final String currencyTo;
 
-  CurrencyState(this.currency);
+  const CurrencyState({required this.currencyFrom, required this.currencyTo});
 }
 
 final class CurrencyInitial extends CurrencyState {
-  CurrencyInitial(super.currency);
+  const CurrencyInitial({required super.currencyFrom, required super.currencyTo});
 }
 
-class CurrencyChanged extends CurrencyState {
-  CurrencyChanged(super.currency);
+class ChangedCurrencyState extends CurrencyState {
+  const ChangedCurrencyState({required super.currencyFrom, required super.currencyTo});
 }

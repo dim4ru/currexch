@@ -3,10 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../bloc/currency/currency_bloc.dart';
 
-class CurrencySelector extends StatelessWidget {
+class CurrencyFromSelector extends StatelessWidget {
   final String title;
 
-  const CurrencySelector({super.key, required this.title});
+  const CurrencyFromSelector({super.key, required this.title});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +15,7 @@ class CurrencySelector extends StatelessWidget {
     return BlocBuilder<CurrencyBloc, CurrencyState>(
       builder: (context, state) {
         final currencyBloc = context.read<CurrencyBloc>();
-        String? _selectedCurrency = state.currency;
+        String? _selectedCurrency = state.currencyFrom;
         final controller = TextEditingController(text: _selectedCurrency);
         return Row(
           children: [
@@ -45,7 +45,7 @@ class CurrencySelector extends StatelessWidget {
                               value: currency,
                               groupValue: _selectedCurrency,
                               onChanged: (value) {
-                                currencyBloc.add(ChangeCurrencyEvent(value!));
+                                currencyBloc.add(ChangeCurrencyFromEvent(value!));
                                 Navigator.pop(context);
                               },
                             );
