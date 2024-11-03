@@ -16,11 +16,12 @@ class CurrencySelector extends StatelessWidget {
       builder: (context, state) {
         final currencyBloc = context.read<CurrencyBloc>();
         String? _selectedCurrency = state.currency;
+        final controller = TextEditingController(text: _selectedCurrency);
         return Row(
           children: [
             Expanded(
               child: TextFormField(
-                initialValue: _selectedCurrency,
+                controller: controller,
                 readOnly: true,
                 decoration: InputDecoration(
                   labelText: title,
