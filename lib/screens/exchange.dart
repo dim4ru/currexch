@@ -49,18 +49,20 @@ class ExchangeScreen extends StatelessWidget {
                     const SizedBox(
                       height: 16,
                     ),
-                    ElevatedButton(
-                        onPressed: () {
-                          exchangeBloc.add(UserRequestExchange());
-                        },
-                        child: Text("Go!")),
-                    const SizedBox(
-                      height: 16,
-                    ),
+                  ElevatedButton(
+                      onPressed: () {
+                        exchangeBloc.add(UserRequestExchange());
+                      },
+                      child: Text("Go!")),
+                  const SizedBox(
+                    height: 16,
+                  ),
                     if (state is ExchangeLoading)
                       const CircularProgressIndicator()
                     else if (state is ExchangeApiSuccessful)
                       const Text("ExchangeApiSuccessful")
+                    else if (state is ExchangeError)
+                      const Text("Error")
                   ],
                 ),
               ),
