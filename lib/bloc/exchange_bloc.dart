@@ -6,8 +6,11 @@ part 'exchange_state.dart';
 
 class ExchangeBloc extends Bloc<ExchangeEvent, ExchangeState> {
   ExchangeBloc() : super(ExchangeInitial()) {
-    on<ExchangeEvent>((event, emit) {
-      // TODO: implement event handler
+    on<UserRequestExchange>((event, emit) async {
+      emit(ExchangeLoading());
+
+      await Future.delayed(const Duration(seconds: 1));
+      emit(ExchangeApiSuccessful());
     });
   }
 }

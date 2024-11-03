@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
       ),
       home: BlocProvider(
         create: (context) => ExchangeBloc(),
-        child: Exchange(),
+        child: ExchangeScreen(),
       ),
     );
   }
