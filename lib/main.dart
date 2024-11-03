@@ -1,5 +1,7 @@
+import 'package:currexch/bloc/exchange_bloc.dart';
 import 'package:currexch/screens/exchange.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'helpers/colors.dart';
 
@@ -18,14 +20,17 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
         appBarTheme: const AppBarTheme(
-          backgroundColor: AppColors.primaryColor,
-          titleTextStyle: TextStyle(
-            color: Colors.white,
-            fontSize: 20,
-          )
+            backgroundColor: AppColors.primaryColor,
+            titleTextStyle: TextStyle(
+              color: Colors.white,
+              fontSize: 20,
+            )
         ),
       ),
-      home: const Exchange(),
+      home: BlocProvider(
+        create: (context) => ExchangeBloc(),
+        child: Exchange(),
+      ),
     );
   }
 }
