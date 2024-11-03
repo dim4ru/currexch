@@ -26,7 +26,7 @@ class ExchangeScreen extends StatelessWidget {
               key: _formKey,
               child: Column(
                 children: [
-                  BlocProvider( // Provide a separate CurrencyBloc for the first selector
+                  BlocProvider(
                     create: (context) => CurrencyBloc(),
                     child: const CurrencySelector(
                       title: "You send",
@@ -38,10 +38,10 @@ class ExchangeScreen extends StatelessWidget {
                     icon: const Icon(Icons.swap_vert),
                   ),
                   const SizedBox(height: 16),
-                  BlocProvider( // Provide a separate CurrencyBloc for the first selector
+                  BlocProvider(
                     create: (context) => CurrencyBloc(),
                     child: const CurrencySelector(
-                      title: "You send",
+                      title: "They get",
                     ),
                   ),
                   const SizedBox(

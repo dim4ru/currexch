@@ -12,18 +12,18 @@ class CurrencySelector extends StatelessWidget {
   Widget build(BuildContext context) {
     final List<String> currencies = ["RUB", "USD", "GBP"];
 
-
     return BlocBuilder<CurrencyBloc, CurrencyState>(
       builder: (context, state) {
-        String? _selectedCurrency;
         final currencyBloc = context.read<CurrencyBloc>();
+        String? _selectedCurrency = state.currency;
         return Row(
           children: [
             Expanded(
               child: TextFormField(
+                initialValue: _selectedCurrency,
                 readOnly: true,
                 decoration: InputDecoration(
-                  labelText: currencyBloc.state.currency,
+                  labelText: title,
                 ),
               ),
             ),
