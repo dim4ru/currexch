@@ -22,14 +22,29 @@ class ExchangeBloc extends Bloc<ExchangeEvent, ExchangeState> {
 
     on<UserRequestExchange>((event, emit) async {
       emit(ExchangeLoading());
-      final dio = Dio();
-      final response = await dio.get('https://api.exchangeratesapi.io/v1/symbols?access_key=dca0810669ccd43d7253437f759a61d6');
-      if (response.statusCode == 200) {
-        print(response.data);
-        emit(ExchangeApiSuccessful());
-      } else {
-        print(response.statusCode);
-        ExchangeError();
+
+      try {
+        final dio = Dio();
+        final response = await dio.get('https://api.exchangeratesapi.io/v1/latest?access_key=dca0810669ccd43d7253437f759a61d6&base=${event.currecnyFrom}&symbols=${event.currecnyTo}');
+
+        if (response.statusCode == 200) {
+          final result = response.data['rates'][event.currecnyTo].toString();
+          emit(ExchangeApiSuccessful(result: result));
+        } else {
+          throw DioException(
+            requestOptions: response.requestOptions,
+            response: response,
+            type: DioExceptionType.unknown,
+          );
+        }
+      } on DioException catch (e) {
+        String errorMessage = 'An error occurred';
+
+        if (e.response != null) {
+          errorMessage = e.response!.statusMessage ?? errorMessage;
+        }
+
+        emit(ExchangeError(message: errorMessage));
       }
     });
   }

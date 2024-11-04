@@ -11,7 +11,7 @@ class CurrencyToSelector extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<String> currencies = ["RUB", "USD", "GBP"];
+    final List<String> currencies = ["RUB", "USD", "GBP", "EUR"];
 
     return BlocBuilder<CurrencyBloc, CurrencyState>(
       builder: (context, state) {

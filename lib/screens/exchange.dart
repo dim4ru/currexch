@@ -5,6 +5,7 @@ import '../bloc/currency/currency_bloc.dart';
 import '../bloc/exchange/exchange_bloc.dart';
 import '../widgets/currency_from_selector.dart';
 import '../widgets/currency_to_selector.dart';
+import '../widgets/result_text.dart';
 
 class ExchangeScreen extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
@@ -51,7 +52,7 @@ class ExchangeScreen extends StatelessWidget {
                     ),
                   ElevatedButton(
                       onPressed: () {
-                        exchangeBloc.add(UserRequestExchange());
+                        exchangeBloc.add(UserRequestExchange(currecnyFrom: currencyBloc.state.currencyFrom ,currecnyTo: currencyBloc.state.currencyTo));
                       },
                       child: Text("Go!")),
                   const SizedBox(
@@ -60,9 +61,9 @@ class ExchangeScreen extends StatelessWidget {
                     if (state is ExchangeLoading)
                       const CircularProgressIndicator()
                     else if (state is ExchangeApiSuccessful)
-                      const Text("ExchangeApiSuccessful")
+                      Text(state.result, style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w600),)
                     else if (state is ExchangeError)
-                      const Text("Error")
+                      Text("Ошибка конвертации (${state.message})"),
                   ],
                 ),
               ),
