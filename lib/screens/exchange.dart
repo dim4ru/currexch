@@ -3,8 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../bloc/currency/currency_bloc.dart';
 import '../bloc/exchange/exchange_bloc.dart';
-import '../widgets/currency_from_selector.dart';
-import '../widgets/currency_to_selector.dart';
+import '../widgets/currency_selector.dart';
 
 class ExchangeScreen extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
@@ -31,9 +30,9 @@ class ExchangeScreen extends StatelessWidget {
                 key: _formKey,
                 child: Column(
                   children: [
-                    CurrencyFromSelector(
-                      title: "You send",
+                    CurrencySelector(
                       currencyBloc: currencyBloc,
+                      direction: ExchangeDirection.from,
                     ),
                     const SizedBox(height: 16),
                     IconButton(
@@ -43,9 +42,10 @@ class ExchangeScreen extends StatelessWidget {
                       icon: const Icon(Icons.swap_vert),
                     ),
                     const SizedBox(height: 16),
-                    CurrencyToSelector(
-                        title: "They get",
-                        currencyBloc: currencyBloc),
+                    CurrencySelector(
+                        currencyBloc: currencyBloc,
+                        direction: ExchangeDirection.to,
+                    ),
                     const SizedBox(
                       height: 16,
                     ),

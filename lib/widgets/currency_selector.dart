@@ -3,11 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../bloc/currency/currency_bloc.dart';
 
-class CurrencyFromSelector extends StatelessWidget {
-  final String title;
+enum ExchangeDirection {from, to}
+
+class CurrencySelector extends StatelessWidget {
+  final ExchangeDirection direction;
   final CurrencyBloc currencyBloc;
 
-  const CurrencyFromSelector({super.key, required this.title, required this.currencyBloc});
+  const CurrencySelector({super.key, required this.currencyBloc, required this.direction});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +18,9 @@ class CurrencyFromSelector extends StatelessWidget {
     return BlocBuilder<CurrencyBloc, CurrencyState>(
       builder: (context, state) {
         final currencyBloc = context.read<CurrencyBloc>();
-        String? _selectedCurrency = state.currencyFrom;
+        String? _selectedCurrency = (direction == ExchangeDirection.from)
+            ? state.currencyFrom
+            : state.currencyTo;
         final controller = TextEditingController(text: _selectedCurrency);
         return Row(
           children: [
@@ -25,13 +29,14 @@ class CurrencyFromSelector extends StatelessWidget {
                 controller: controller,
                 readOnly: true,
                 decoration: InputDecoration(
-                  labelText: title,
+                  labelText: (direction == ExchangeDirection.from)
+                      ? "You send"
+                      : "They get",
                 ),
               ),
             ),
             IconButton(
               onPressed: () {
-                // TODO перенести в отдельную функцию
                 showDialog(
                   context: context,
                   builder: (BuildContext context) {
@@ -46,7 +51,10 @@ class CurrencyFromSelector extends StatelessWidget {
                               value: currency,
                               groupValue: _selectedCurrency,
                               onChanged: (value) {
-                                currencyBloc.add(ChangeCurrencyFromEvent(value!));
+                                currencyBloc.add(
+                                    (direction == ExchangeDirection.from)
+                                        ? ChangeCurrencyFromEvent(value!)
+                                        : ChangeCurrencyToEvent(value!));
                                 Navigator.pop(context);
                               },
                             );
