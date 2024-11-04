@@ -60,9 +60,33 @@ class ExchangeScreen extends StatelessWidget {
                     if (state is ExchangeLoading)
                       const CircularProgressIndicator()
                     else if (state is ExchangeApiSuccessful)
-                      Text(state.result, style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w600),)
-                      else if (state is ExchangeCacheSuccessful)
-                        Text(state.result + " (may be outdated)", style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w600),)
+                      Text(
+                        state.result,
+                        style: const TextStyle(
+                            fontSize: 24, fontWeight: FontWeight.w600),
+                      )
+                    else if (state is ExchangeCacheSuccessful)
+                      Column(
+                        children: [
+                          Text(
+                            state.result,
+                            style: const TextStyle(
+                                fontSize: 24, fontWeight: FontWeight.w600),
+                          ),
+                          const Row(
+                            children: [
+                              Icon(Icons.warning_amber),
+                              SizedBox(width: 16,),
+                              Expanded(
+                                child: Text(
+                                  "The result is definitely outdated because exchange rate from local storage was used. Establish your internet connection to get up to date rates and update your local exchange rates storage.",
+                                  softWrap: true,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      )
                     else if (state is ExchangeError)
                       Text("Ошибка конвертации (${state.message})"),
                   ],

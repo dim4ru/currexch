@@ -9,13 +9,13 @@ part 'exchange_event.dart';
 part 'exchange_state.dart';
 
 class ExchangeBloc extends Bloc<ExchangeEvent, ExchangeState> {
+  late Isar isar;
+
   ExchangeBloc() : super(ExchangeInitial()) {
 
+    _initIsar();
+
     on<AppStartupEvent>((event, emit) async {
-      final dbDirectory = await getApplicationSupportDirectory();
-
-      final isar = await Isar.open([CurrencySchema], directory: dbDirectory.path);
-
       try {
         final dio = Dio();
         final response = await dio.get('https://api.exchangeratesapi.io/v1/latest?access_key=dca0810669ccd43d7253437f759a61d6');
@@ -34,9 +34,6 @@ class ExchangeBloc extends Bloc<ExchangeEvent, ExchangeState> {
               ..rate = rates[currency]!);
           }
         });
-
-        await isar.close();
-
       } catch (error) {
         print("Error loading currencies: $error");
       }
@@ -62,12 +59,9 @@ class ExchangeBloc extends Bloc<ExchangeEvent, ExchangeState> {
         }
       } on DioException catch (e) {
         try {
+          print('DioException caught: ${e.message}');
 
-          final dbDirectory = await getApplicationSupportDirectory();
-          final isar = await Isar.open([CurrencySchema], directory: dbDirectory.path);
           final result = await isar.currencys.getByCurrency(event.currencyTo);
-          await isar.close();
-
           if (result != null) {
             emit(ExchangeCacheSuccessful(result: result.rate.toString()));
           } else {
@@ -84,5 +78,10 @@ class ExchangeBloc extends Bloc<ExchangeEvent, ExchangeState> {
         }
       }
     });
+  }
+
+  Future<void> _initIsar() async {
+    final dbDirectory = await getApplicationSupportDirectory();
+    isar = await Isar.open([CurrencySchema], directory: dbDirectory.path);
   }
 }
