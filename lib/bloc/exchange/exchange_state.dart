@@ -13,7 +13,11 @@ class ExchangeApiSuccessful extends ExchangeState {
   ExchangeApiSuccessful({required this.result});
 }
 
-class ExchangeCacheSuccessful extends ExchangeState {}
+class ExchangeCacheSuccessful extends ExchangeState {
+  final String result;
+
+  ExchangeCacheSuccessful({required this.result});
+}
 
 class ExchangeError extends ExchangeState {
   final String message;

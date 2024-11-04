@@ -33,7 +33,21 @@ const CurrencySchema = CollectionSchema(
   deserialize: _currencyDeserialize,
   deserializeProp: _currencyDeserializeProp,
   idName: r'id',
-  indexes: {},
+  indexes: {
+    r'currency': IndexSchema(
+      id: 152811329157106879,
+      name: r'currency',
+      unique: true,
+      replace: false,
+      properties: [
+        IndexPropertySchema(
+          name: r'currency',
+          type: IndexType.hash,
+          caseSensitive: true,
+        )
+      ],
+    )
+  },
   links: {},
   embeddedSchemas: {},
   getId: _currencyGetId,
@@ -101,6 +115,61 @@ List<IsarLinkBase<dynamic>> _currencyGetLinks(Currency object) {
 
 void _currencyAttach(IsarCollection<dynamic> col, Id id, Currency object) {
   object.id = id;
+}
+
+extension CurrencyByIndex on IsarCollection<Currency> {
+  Future<Currency?> getByCurrency(String currency) {
+    return getByIndex(r'currency', [currency]);
+  }
+
+  Currency? getByCurrencySync(String currency) {
+    return getByIndexSync(r'currency', [currency]);
+  }
+
+  Future<bool> deleteByCurrency(String currency) {
+    return deleteByIndex(r'currency', [currency]);
+  }
+
+  bool deleteByCurrencySync(String currency) {
+    return deleteByIndexSync(r'currency', [currency]);
+  }
+
+  Future<List<Currency?>> getAllByCurrency(List<String> currencyValues) {
+    final values = currencyValues.map((e) => [e]).toList();
+    return getAllByIndex(r'currency', values);
+  }
+
+  List<Currency?> getAllByCurrencySync(List<String> currencyValues) {
+    final values = currencyValues.map((e) => [e]).toList();
+    return getAllByIndexSync(r'currency', values);
+  }
+
+  Future<int> deleteAllByCurrency(List<String> currencyValues) {
+    final values = currencyValues.map((e) => [e]).toList();
+    return deleteAllByIndex(r'currency', values);
+  }
+
+  int deleteAllByCurrencySync(List<String> currencyValues) {
+    final values = currencyValues.map((e) => [e]).toList();
+    return deleteAllByIndexSync(r'currency', values);
+  }
+
+  Future<Id> putByCurrency(Currency object) {
+    return putByIndex(r'currency', object);
+  }
+
+  Id putByCurrencySync(Currency object, {bool saveLinks = true}) {
+    return putByIndexSync(r'currency', object, saveLinks: saveLinks);
+  }
+
+  Future<List<Id>> putAllByCurrency(List<Currency> objects) {
+    return putAllByIndex(r'currency', objects);
+  }
+
+  List<Id> putAllByCurrencySync(List<Currency> objects,
+      {bool saveLinks = true}) {
+    return putAllByIndexSync(r'currency', objects, saveLinks: saveLinks);
+  }
 }
 
 extension CurrencyQueryWhereSort on QueryBuilder<Currency, Currency, QWhere> {
@@ -174,6 +243,51 @@ extension CurrencyQueryWhere on QueryBuilder<Currency, Currency, QWhereClause> {
         upper: upperId,
         includeUpper: includeUpper,
       ));
+    });
+  }
+
+  QueryBuilder<Currency, Currency, QAfterWhereClause> currencyEqualTo(
+      String currency) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.equalTo(
+        indexName: r'currency',
+        value: [currency],
+      ));
+    });
+  }
+
+  QueryBuilder<Currency, Currency, QAfterWhereClause> currencyNotEqualTo(
+      String currency) {
+    return QueryBuilder.apply(this, (query) {
+      if (query.whereSort == Sort.asc) {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'currency',
+              lower: [],
+              upper: [currency],
+              includeUpper: false,
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'currency',
+              lower: [currency],
+              includeLower: false,
+              upper: [],
+            ));
+      } else {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'currency',
+              lower: [currency],
+              includeLower: false,
+              upper: [],
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'currency',
+              lower: [],
+              upper: [currency],
+              includeUpper: false,
+            ));
+      }
     });
   }
 }

@@ -4,10 +4,10 @@ part of 'exchange_bloc.dart';
 abstract class ExchangeEvent {}
 
 class UserRequestExchange extends ExchangeEvent {
-  final String currecnyFrom;
-  final String currecnyTo;
+  final String currencyFrom;
+  final String currencyTo;
 
-  UserRequestExchange({required this.currecnyFrom, required this.currecnyTo});
+  UserRequestExchange({required this.currencyFrom, required this.currencyTo});
 }
 
 class AppStartupEvent extends ExchangeEvent {}

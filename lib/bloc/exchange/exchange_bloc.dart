@@ -35,6 +35,8 @@ class ExchangeBloc extends Bloc<ExchangeEvent, ExchangeState> {
           }
         });
 
+        await isar.close();
+
       } catch (error) {
         print("Error loading currencies: $error");
       }
@@ -45,11 +47,12 @@ class ExchangeBloc extends Bloc<ExchangeEvent, ExchangeState> {
 
       try {
         final dio = Dio();
-        final response = await dio.get('https://api.exchangeratesapi.io/v1/latest?access_key=dca0810669ccd43d7253437f759a61d6&base=${event.currecnyFrom}&symbols=${event.currecnyTo}');
+        final response = await dio.get('https://api.exchangeratesapi.io/v1/latest?access_key=dca0810669ccd43d7253437f759a61d6&base=${event.currencyFrom}&symbols=${event.currencyTo}');
 
         if (response.statusCode == 200) {
-          final result = response.data['rates'][event.currecnyTo].toString();
+          final result = response.data['rates'][event.currencyTo].toString();
           emit(ExchangeApiSuccessful(result: result));
+          return;
         } else {
           throw DioException(
             requestOptions: response.requestOptions,
@@ -58,13 +61,27 @@ class ExchangeBloc extends Bloc<ExchangeEvent, ExchangeState> {
           );
         }
       } on DioException catch (e) {
-        String errorMessage = 'An error occurred';
+        try {
 
-        if (e.response != null) {
-          errorMessage = e.response!.statusMessage ?? errorMessage;
+          final dbDirectory = await getApplicationSupportDirectory();
+          final isar = await Isar.open([CurrencySchema], directory: dbDirectory.path);
+          final result = await isar.currencys.getByCurrency(event.currencyTo);
+          await isar.close();
+
+          if (result != null) {
+            emit(ExchangeCacheSuccessful(result: result.rate.toString()));
+          } else {
+            throw Exception('Exchange rate not found in local storage');
+          }
+        } on Exception catch (e) {
+          String errorMessage = 'An error occurred';
+
+          if (e.toString() != 'Exchange rate not found in local storage') {
+            errorMessage = e.toString();
+          }
+
+          emit(ExchangeError(message: errorMessage));
         }
-
-        emit(ExchangeError(message: errorMessage));
       }
     });
   }

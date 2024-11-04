@@ -51,7 +51,7 @@ class ExchangeScreen extends StatelessWidget {
                     ),
                   ElevatedButton(
                       onPressed: () {
-                        exchangeBloc.add(UserRequestExchange(currecnyFrom: currencyBloc.state.currencyFrom ,currecnyTo: currencyBloc.state.currencyTo));
+                        exchangeBloc.add(UserRequestExchange(currencyFrom: currencyBloc.state.currencyFrom ,currencyTo: currencyBloc.state.currencyTo));
                       },
                       child: const Text("Go!")),
                   const SizedBox(
@@ -61,6 +61,8 @@ class ExchangeScreen extends StatelessWidget {
                       const CircularProgressIndicator()
                     else if (state is ExchangeApiSuccessful)
                       Text(state.result, style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w600),)
+                      else if (state is ExchangeCacheSuccessful)
+                        Text(state.result + " (may be outdated)", style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w600),)
                     else if (state is ExchangeError)
                       Text("Ошибка конвертации (${state.message})"),
                   ],
