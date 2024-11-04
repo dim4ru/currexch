@@ -39,7 +39,7 @@ const CurrencySchema = CollectionSchema(
   getId: _currencyGetId,
   getLinks: _currencyGetLinks,
   attach: _currencyAttach,
-  version: '3.1.0+1',
+  version: '3.1.8',
 );
 
 int _currencyEstimateSize(
