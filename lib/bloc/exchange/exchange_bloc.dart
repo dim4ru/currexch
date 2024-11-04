@@ -20,14 +20,21 @@ class ExchangeBloc extends Bloc<ExchangeEvent, ExchangeState> {
         final dio = Dio();
         final response = await dio.get('https://api.exchangeratesapi.io/v1/latest?access_key=dca0810669ccd43d7253437f759a61d6');
         print("Currencies loaded: ${response.data}");
-        final currencies = isar.currencys;
-        final newCurrency = Currency()
-          ..currency = 'USD'
-          ..rate = 10.0;
 
         await isar.writeTxn(() async {
-          await currencies.put(newCurrency);
+          await isar.currencys.clear();
+
+          final Map<String, double> rates = (response.data['rates'] as Map).map((key, value) {
+            return MapEntry(key, double.parse(value.toString()));
+          }).cast<String, double>();
+
+          for (final currency in rates.keys) {
+            await isar.currencys.put(Currency()
+              ..currency = currency
+              ..rate = rates[currency]!);
+          }
         });
+
       } catch (error) {
         print("Error loading currencies: $error");
       }
