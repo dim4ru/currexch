@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../bloc/currency/currency_bloc.dart';
+import '../helpers/available_currencies.dart';
 
 enum ExchangeDirection {from, to}
 
@@ -9,12 +10,10 @@ class CurrencySelector extends StatelessWidget {
   final ExchangeDirection direction;
   final CurrencyBloc currencyBloc;
 
-  const CurrencySelector({super.key, required this.currencyBloc, required this.direction});
+  CurrencySelector({super.key, required this.currencyBloc, required this.direction});
 
   @override
   Widget build(BuildContext context) {
-    final List<String> currencies = ["EUR"];
-
     return BlocBuilder<CurrencyBloc, CurrencyState>(
       builder: (context, state) {
         final currencyBloc = context.read<CurrencyBloc>();
@@ -45,7 +44,7 @@ class CurrencySelector extends StatelessWidget {
                       content: SingleChildScrollView(
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
-                          children: currencies.map((currency) {
+                          children: availableCurrencies.map((currency) {
                             return RadioListTile<String>(
                               title: Text(currency),
                               value: currency,

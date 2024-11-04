@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
       ),
       home: MultiBlocProvider(
         providers: [
-          BlocProvider(create: (context) => ExchangeBloc()..add(AppStartup())),
+          BlocProvider(create: (context) => ExchangeBloc()..add(AppStartupEvent())),
           BlocProvider<CurrencyBloc>(create: (context) => CurrencyBloc()),
         ],
         child: ExchangeScreen(),

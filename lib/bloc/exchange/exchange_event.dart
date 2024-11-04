@@ -10,4 +10,4 @@ class UserRequestExchange extends ExchangeEvent {
   UserRequestExchange({required this.currecnyFrom, required this.currecnyTo});
 }
 
-class AppStartup extends ExchangeEvent {}
+class AppStartupEvent extends ExchangeEvent {}
