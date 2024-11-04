@@ -5,7 +5,6 @@ import '../bloc/currency/currency_bloc.dart';
 import '../bloc/exchange/exchange_bloc.dart';
 import '../widgets/currency_from_selector.dart';
 import '../widgets/currency_to_selector.dart';
-import '../widgets/result_text.dart';
 
 class ExchangeScreen extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
@@ -54,7 +53,7 @@ class ExchangeScreen extends StatelessWidget {
                       onPressed: () {
                         exchangeBloc.add(UserRequestExchange(currecnyFrom: currencyBloc.state.currencyFrom ,currecnyTo: currencyBloc.state.currencyTo));
                       },
-                      child: Text("Go!")),
+                      child: const Text("Go!")),
                   const SizedBox(
                     height: 16,
                   ),
