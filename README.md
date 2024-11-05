@@ -1,12 +1,18 @@
 # currexch
 
-Currency exchange app
+Приложение для обмена валюты, использующее локальное хранилище IsarDB в случае недоступности API
 
-## Stack
+## Стек
 - Flutter
-- BLoC
-- Dio
-- exchangeratesapi.io
+- BLoC – для управления состоянием
+- Dio – для HTTP-запросов
+- exchangeratesapi.io - API для курсов валют
+- IsarDB - для локального хранения на устройстве
 
-## Screenshot
-![App Screenshot](https://i.imgur.com/XCt1mTs.png)
+## Скриншоты
+- Конвертация с использованием API
+![App Screenshot1](https://i.imgur.com/XCt1mTs.png)
+
+- Конвертация с использованием локального хранилища
+![App Screenshot2](https://i.imgur.com/OCqlHMX.png)
+Ct1mTs.png)
